@@ -31,26 +31,33 @@ class Player(GameSprite):
             self.rect.y -= self.speed
         if keys[K_DOWN] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
+        if keys[K_LEFT] and self.rect.x > 5:
+            self.rect.x -= self.speed
+        if keys[K_RIGHT] and self.rect.x < win_width - 80:
+            self.rect.x += self.speed    
     def update_l(self):
         keys = key.get_pressed()
         if keys[K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
         if keys[K_s] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
-
+        if keys[K_a] and self.rect.x > 5:
+            self.rect.x -= self.speed
+        if keys[K_d] and self.rect.x < win_width - 80:
+            self.rect.x += self.speed  
 
 #Игровая сцена:
-win_width = 600
-win_height = 500
+win_width = 1200
+win_height = 900
 window = display.set_mode((win_width, win_height))
 display.set_caption("Maze")
 background = transform.scale(image.load("bosh.png"), (win_width, win_height))
 #window.fill((200, 255, 255))
 
 #Персонажи игры:
-player_l = Player(30, 200, 4, 50, 150, "arm1.png")
-player_r = Player(520, 200, 4, 50, 150, "arm3.png")
-ball = Player(200, 200, 4, 60, 60, "вщп2.png")
+player_l = Player(100, 500, 8, 50, 150, "arm1.png")
+player_r = Player(900, 500, 8, 50, 150, "arm3.png")
+ball = Player(500, 500, 4, 60, 60, "вщп2.png")
 
 game = True
 finish = False
@@ -77,19 +84,26 @@ while game:
         player_r.update_r()
         ball.rect.x += speed_x
         ball.rect.y += speed_y
-        if ball.rect.y < 0 or ball.rect.y > 440:
+        if ball.rect.y < 0 or ball.rect.y > 840:
             speed_y *= -1
         if sprite.collide_rect(ball, player_r) or sprite.collide_rect(ball, player_l):
             speed_x *= -1
         if ball.rect.x < 0:
             finish = True
             window.blit(lose_1, (80, 200))
-        if ball.rect.x > 540:
+        if ball.rect.x > 1140:
             finish = True
             window.blit(lose_2, (80, 200))
         player_l.reset()
         player_r.reset()
         ball.reset()
+
+
+
+
+    display.update()
+    clock.tick(FPS)
+
 
 
 
